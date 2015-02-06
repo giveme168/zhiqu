@@ -5,7 +5,7 @@ import datetime
 
 from django.core.management import setup_environ
 
-sys.path.append('/Users/yuguo163/workspace/test/zhiqu') 
+sys.path.append('/var/www/zhiqu') 
 
 import settings
 setup_environ(settings)
