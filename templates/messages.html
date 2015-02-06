@@ -1,0 +1,22 @@
+<script>
+    $(function(){
+        {% if messages %}
+        {% for message in messages %}
+        noty({
+            "text":"{{ message }}",
+            "layout":"topRight",
+            "theme":"mitgux",
+            "type":"{{ message.tags }}",
+            "textAlign":"center",
+            "easing":"swing",
+            "animateOpen":{"height":"toggle"},
+            "animateClose":{"height":"toggle"},
+            "speed":"500",
+            "timeout":"5000",
+            "closable":true,
+            "closeOnSelfClick":true
+        });
+        {% endfor %}
+        {% endif %}
+    })
+</script>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <title>TEST</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}js/noty/css/jquery.noty.css">
+        <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+        <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}js/noty/js/jquery.noty.js"></script>
+    </head>
+
+    <body>
+    {% include "messages.html" %}
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+                    <span class="sr-only">T</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">T</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <form class="form-inline" role="form" action="/" method='post' enctype="multipart/form-data">
+            <div class="form-group">    
+                <select class="form-control" name="type" id="type">
+                    <option value="all">所有</option>
+                    <option value="imgs">图片格式</option>
+                    <option value="xls">excel2010</option>
+                    <option value="txt">txt</option>
+                </select>
+            </div>
+            <div class="form-group">    
+                <input type="number" class="form-control" id="size" name="size" placeholder="大小限制(KB)">
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" id="upload_file" name="upload_file" placeholder="文件上传">
+            </div>
+            <button type="submit" class="btn btn-default">上传</button>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>路径</th>
+                    <th>上传日期</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files.object_list %}
+                <tr>
+                    <td><a href="/static/upload/{{file.url}}">{{file.url}}</a><td>
+                    <td>{{file.create|date:"Y-m-d H:i:s"}}<td>
+                    <td>
+                        <a href="javascript:deletes('/url/{{file.id}}/delete','{{file.url}}')" title="删除"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% with files as pages %}
+            {% include "util/pagination.html" %}
+        {% endwith%}
+    </div>
+    <script>
+        function deletes(delete_url, url){
+            var flag=confirm("确定要删除:"+url+"这个文件吗?");
+            if(flag){
+                location.href=delete_url;
+            }
+        }
+    </script>
+  </body>
+</html>
+
